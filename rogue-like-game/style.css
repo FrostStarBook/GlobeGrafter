@@ -1,0 +1,17 @@
+.terminal, .game {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+}
+.terminal {
+    z-index: 100;
+}
+.game {
+    overflow: hidden;
+}
+body {
+    margin: 0;
+    background: black;
+}
