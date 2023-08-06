@@ -352,29 +352,31 @@ Being.prototype.getHealth = function() { return this._health; };
 Being.prototype.getGold = function() { return this._gold; };
 Being.prototype.hit = function(damage) { this._health -= damage; };
 
-// ---------------------------------------------------------------
+
 var currentText = '';
 // ---------------------------------------------------------------
 Being.prototype.attack = function (adversary) {
+    const output = document.getElementById("output");
+    output.scrollTop = output.scrollHeight;
     if (!Game.areNeighbor(this, adversary)) {
         throw new Error("You can't attach this adversary");
     }
     var attack = rand(1, 20) + this._attack;
     if (attack >= adversary.getAC()) {
-        currentText = document.getElementById("output").innerHTML = currentText + "<br>" + 'ATTACK ' + this._chr + ' ' + attack + " Succeed!";
+        currentText = output.innerHTML = currentText + "<br>" + 'ATTACK ' + this._chr + ' ' + attack + " Succeed!";
     } else {
-        currentText =  document.getElementById("output").innerHTML = currentText + "<br>" + 'ATTACK ' + this._chr + ' ' + attack + " Fail!";
+        currentText = output.innerHTML = currentText + "<br>" + 'ATTACK ' + this._chr + ' ' + attack + " Fail!";
     }
 
     if (attack >= adversary.getAC()) {
         var damage = this._weapon.damage() + this._damage;
         adversary.hit(damage);
         console.log('damage:', damage);
-        currentText = document.getElementById("output").innerHTML = currentText + "<br>" + 'DAMAGE: ' + damage;
+        currentText = output.innerHTML = currentText + "<br>" + 'DAMAGE: ' + damage;
         Game.drawStats();
         if (adversary._health <= 0) {
             console.log('kill', adversary);
-            currentText = document.getElementById("output").innerHTML = currentText + "<br>" + 'KILL: ' + adversary._chr + ' GAIN-EXPERIENCE: ' + adversary._exp;
+            currentText = output.innerHTML = currentText + "<br>" + 'KILL: ' + adversary._chr + ' GAIN-EXPERIENCE: ' + adversary._exp;
             if (adversary instanceof Player) {
                 Game.engine.lock();
                 alert('Game Over!');
@@ -397,6 +399,7 @@ Being.prototype.attack = function (adversary) {
         }
     }
 };
+
 Player.prototype = new Being();
 // ---------------------------------------------------------------
 Player.prototype._draw = function() {
