@@ -15,6 +15,13 @@ body {
     margin: 0;
     background: black;
 }
+button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 999;
+    opacity: 0.3;
+}
 .output{
     position: absolute;
     bottom: 50px;
@@ -29,11 +36,4 @@ body {
     overflow-y: auto;
     max-height: 200px;
     line-height: 20px;
-}
-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 999;
-    opacity: 0.3;
 }

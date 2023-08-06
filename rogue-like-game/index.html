@@ -19,20 +19,6 @@
 <button id="connectButton">Connect Wallet</button>
 
 <script>
-    document.getElementById("connectButton").addEventListener("click", async () => {
-        if (window.ethereum) {
-            web3 = new Web3(window.ethereum)
-            try {
-                await window.ethereum.enable()
-                const accounts = await web3.eth.getAccounts()
-                document.getElementById("connectButton").innerHTML =
-                    "Connected: " + accounts[0]
-            } catch (error) {
-                document.getElementById("connectButton").innerHTML = "Connect Wallet"
-            }
-        }
-    })
-
     var global = window;
     var exports = false;
 </script>
@@ -46,7 +32,6 @@
 <script src='https://unpkg.com/prismjs@1.8.1/prism.js'></script>
 <script src='https://unpkg.com/jquery.terminal/js/less.js'></script>
 <script src='https://unpkg.com/jquery.terminal/js/prism.js'></script>
-<script src='https://unpkg.com/rot-js@0.6.5/lib/rot.js'></script><script  src="./game.js"></script>
-
-</body>
+<script src='https://unpkg.com/rot-js@0.6.5/lib/rot.js'></script>
+<script  src="./game.js"></script>
 </html>

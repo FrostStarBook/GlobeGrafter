@@ -1,10 +1,23 @@
 var term = $('.term').terminal({
     rogue: function() {
-        Game.init();
-        this.disable().hide();
+        document.getElementById("connectButton").addEventListener("click", async () => {
+            if (window.ethereum) {
+                web3 = new Web3(window.ethereum)
+                try {
+                    await window.ethereum.enable()
+                    const accounts = await web3.eth.getAccounts()
+                    document.getElementById("connectButton").innerHTML =
+                        "Connected: " + accounts[0]
+                    Game.init();
+                    this.disable().hide();
+                } catch (error) {
+                    document.getElementById("connectButton").innerHTML = "Connect Wallet"
+                }
+            }
+        })
     }
 }, {
-    greetings: 'type [[b;#fff;]rogue] to start the game',
+    greetings: 'type [[b;#fff;]rogue] and Connect Wallet to start the game',
     completion: ['rogue'],
     exit: false
 });
