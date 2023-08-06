@@ -351,26 +351,36 @@ Being.prototype.getY = function() { return this._y; };
 Being.prototype.getHealth = function() { return this._health; };
 Being.prototype.getGold = function() { return this._gold; };
 Being.prototype.hit = function(damage) { this._health -= damage; };
+
 // ---------------------------------------------------------------
-Being.prototype.attack = function(adversary) {
+var currentText = '';
+// ---------------------------------------------------------------
+Being.prototype.attack = function (adversary) {
     if (!Game.areNeighbor(this, adversary)) {
         throw new Error("You can't attach this adversary");
     }
-    var attack = rand(1, 20) + this._attack; // is this how d20 works?
-    console.log('attack ', this._chr, attack, attack >= adversary.getAC());
+    var attack = rand(1, 20) + this._attack;
+    if (attack >= adversary.getAC()) {
+        currentText = document.getElementById("output").innerHTML = currentText + "<br>" + 'ATTACK ' + this._chr + ' ' + attack + " Succeed!";
+    } else {
+        currentText =  document.getElementById("output").innerHTML = currentText + "<br>" + 'ATTACK ' + this._chr + ' ' + attack + " Fail!";
+    }
+
     if (attack >= adversary.getAC()) {
         var damage = this._weapon.damage() + this._damage;
         adversary.hit(damage);
         console.log('damage:', damage);
+        currentText = document.getElementById("output").innerHTML = currentText + "<br>" + 'DAMAGE: ' + damage;
         Game.drawStats();
         if (adversary._health <= 0) {
             console.log('kill', adversary);
-            if (adversary instanceof Player)  {
+            currentText = document.getElementById("output").innerHTML = currentText + "<br>" + 'KILL: ' + adversary._chr + ' GAIN-EXPERIENCE: ' + adversary._exp;
+            if (adversary instanceof Player) {
                 Game.engine.lock();
-                alert('Game Over');
+                alert('Game Over!');
             } else {
                 this.gainExp(adversary.getExp());
-                Game.enemies = Game.enemies.filter(function(enemy) {
+                Game.enemies = Game.enemies.filter(function (enemy) {
                     if (enemy === adversary) {
                         Game.drawTile(
                             Game.player,
