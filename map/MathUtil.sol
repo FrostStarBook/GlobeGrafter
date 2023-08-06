@@ -2,10 +2,9 @@
 pragma solidity ^0.8.4;
 
 library MathUtil {
-    
-    function toUint(int origin) public pure returns(uint result){
+    function toUint(int16 origin) public pure returns (uint16) {
         require(origin >= 0, "origin must be non-negative");
-        result = (uint)(origin);
+        uint16 result = uint16(origin);
+        return result;
     }
-    
 }
