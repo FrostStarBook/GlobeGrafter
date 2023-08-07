@@ -108,5 +108,57 @@ contract Rogue is MapConstructor, Rng {
         }
     }
     
+    function _connectRooms(Setup memory setup, Room[][] memory rooms) public {
+        int16 cgx = getUniformInt(0, int16(setup.roomCountHorizontally - 1));
+        int16 cgy = getUniformInt(0, int16(setup.roomCountVertically - 1));
+        
+        int16[] memory dirToCheck = new int16[](4);
+        dirToCheck[0] = int16(0);
+        dirToCheck[1] = int16(2);
+        dirToCheck[2] = int16(4);
+        dirToCheck[3] = int16(6);
+        dirToCheck = shuffle(dirToCheck);
+        
+        for (uint16 i = 0; i < dirToCheck.length; i++) {
+            bool found;
+            uint16 idx;
+            
+            int16 j = int16(uint16(dirToCheck.length)) - 1;
+            while (j >= int16(0) && found == false) {
+                idx = uint16(dirToCheck[j.toUint()]);
+                j--;
+                
+                int16 ncgx = cgx + DIRS_8[idx][0];
+                int16 ncgy = cgy + DIRS_8[idx][1];
+                
+                if (
+                    ncgx < 0 ||
+                    ncgx >= int16(setup.roomCountHorizontally) ||
+                    ncgy < 0 ||
+                    ncgy >= int16(setup.roomCountVertically)
+                ) continue;
+                
+                Room memory room = rooms[cgx.toUint()][cgy.toUint()];
+                Point[] memory cpOfRoom = room.connectedPoints;
+                uint16 connectedPointsCount = room.connectedPointsCount;
+                
+                if (connectedPointsCount > 0 && cpOfRoom[0].x == ncgx && cpOfRoom[0].y == ncgy) {
+                    break;
+                }
+                
+                Room memory otherRoom = rooms[ncgx.toUint()][ncgy.toUint()];
+                
+                if (connectedPointsCount == 0) {
+                    otherRoom.connectedPoints[0] = Point(cgx, cgy);
+                    otherRoom.connectedPointsCount++;
+                    
+                    allConnectedPoints.push(Point(ncgx, ncgy));
+                    cgx = ncgx;
+                    cgy = ncgy;
+                    found = true;
+                }
+            }
+        }
+    }
     
 }
