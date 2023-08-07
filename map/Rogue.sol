@@ -28,7 +28,7 @@ contract Rogue is MapConstructor, Rng {
         Point[] connectedPoints;
     }
     
-    Point[] allConnectedPoints;
+    Point[] private allConnectedPoints;
     
     function create(
         int16 width,
@@ -234,6 +234,184 @@ contract Rogue is MapConstructor, Rng {
                         room.connectedPointsCount++;
                     }
                 }
+            }
+        }
+    }
+    
+    function _createRooms(
+        int16[][] memory map,
+        Setup memory setup,
+        Room[][] memory rooms
+    ) public view {
+        int16 averageRoomWidth = setup.width / setup.roomCountHorizontally;
+        int16 averageRoomHeight = setup.height / setup.roomCountVertically;
+        
+        for (int16 i = 0; i < setup.roomCountHorizontally; i++) {
+            for (int16 j = 0; j < setup.roomCountVertically; j++) {
+                int16 assumeX = i * averageRoomWidth;
+                if (assumeX == 0) {
+                    assumeX = 1;
+                }
+                int16 assumeY = j * averageRoomHeight;
+                if (assumeY == 0) {
+                    assumeY = 1;
+                }
+                
+                int16 roomWidth = getUniformInt(setup.roomWidthRange[0], setup.roomWidthRange[1]);
+                int16 roomHeight = getUniformInt(setup.roomHeightRange[0], setup.roomHeightRange[1]);
+                
+                if (j > 0) {
+                    Room memory otherRoom = rooms[i.toUint()][j.toUint() - 1];
+                    while (assumeY - otherRoom.yOfMap - otherRoom.height < 3) {
+                        assumeY++;
+                    }
+                }
+                
+                if (i > 0) {
+                    Room memory otherRoom = rooms[i.toUint() - 1][j.toUint()];
+                    while (assumeX - otherRoom.xOfMap - otherRoom.width < 3) {
+                        assumeX++;
+                    }
+                }
+                
+                int16 offsetHoricontal = getUniformInt(0, averageRoomWidth - roomWidth) / 2;
+                int16 offsetVertical = getUniformInt(0, averageRoomHeight - roomHeight) / 2;
+                
+                while (assumeX + offsetHoricontal + roomWidth >= setup.width) {
+                    offsetHoricontal > 0 ? offsetHoricontal-- : roomWidth--;
+                }
+                
+                while (assumeY + offsetVertical + roomHeight >= setup.height) {
+                    offsetVertical > 0 ? offsetVertical-- : roomHeight--;
+                }
+                
+                assumeX += offsetHoricontal;
+                assumeY += offsetVertical;
+                
+                rooms[i.toUint()][j.toUint()].xOfMap = assumeX;
+                rooms[i.toUint()][j.toUint()].yOfMap = assumeY;
+                rooms[i.toUint()][j.toUint()].width = roomWidth;
+                rooms[i.toUint()][j.toUint()].height = roomHeight;
+                
+                for (uint16 k = assumeX.toUint(); k < (assumeX + roomWidth).toUint(); k++) {
+                    for (uint16 l = assumeY.toUint(); l < (assumeY + roomHeight).toUint(); l++) {
+                        map[k][l] = 0;
+                    }
+                }
+            }
+        }
+    }
+    
+    function _createCorridors(
+        Setup memory setup,
+        Room[][] memory rooms,
+        int16[][] memory map
+    ) public view {
+        for (int16 i = 0; i < setup.roomCountHorizontally; i++) {
+            for (int16 j = 0; j < setup.roomCountVertically; j++) {
+                Room memory room = rooms[i.toUint()][j.toUint()];
+                
+                for (uint16 k = 0; k < room.connectedPointsCount; k++) {
+                    Point memory point16 = room.connectedPoints[k];
+                    
+                    Room memory otherRoom = rooms[point16.x.toUint()][point16.y.toUint()];
+                    
+                    int8 wall;
+                    int8 otherWall;
+                    if (room.xOfRooms < otherRoom.xOfRooms) {
+                        wall = left;
+                        otherWall = right;
+                    } else if (room.xOfRooms > otherRoom.xOfRooms) {
+                        wall = right;
+                        otherWall = left;
+                    } else if (room.yOfRooms < otherRoom.yOfRooms) {
+                        wall = down;
+                        otherWall = up;
+                    } else if (room.yOfRooms > otherRoom.yOfRooms) {
+                        wall = up;
+                        otherWall = down;
+                    }
+                    
+                    _drawCorridor(
+                        _getWallPosition(room, wall, map),
+                        _getWallPosition(otherRoom, otherWall, map),
+                        map
+                    );
+                }
+            }
+        }
+    }
+    
+    function _getWallPosition(
+        Room memory room,
+        int8 wall,
+        int16[][] memory map
+    ) internal view returns (Point memory point) {
+        int16 x;
+        int16 y;
+        int16 door;
+        if (wall == left) {
+            y = getUniformInt(room.yOfMap + 1, room.yOfMap + room.height - 2);
+            x = room.xOfMap + room.width + 1;
+            door = x - 1;
+        } else if (wall == right) {
+            y = getUniformInt(room.yOfMap + 1, room.yOfMap + room.height - 2);
+            x = room.xOfMap - 2;
+            door = x + 1;
+        } else if (wall == down) {
+            x = getUniformInt(room.xOfMap + 1, room.xOfMap + room.width - 2);
+            y = room.yOfMap + room.height + 1;
+            door = y - 1;
+        } else if (wall == up) {
+            x = getUniformInt(room.xOfMap + 1, room.xOfMap + room.width - 2);
+            y = room.yOfMap - 2;
+            door = y + 1;
+        }
+        
+        if (wall == left || wall == right) {
+            map[door.toUint()][x.toUint()] = 0;
+        } else if (wall == down || wall == up) {
+            map[y.toUint()][door.toUint()] = 0;
+        }
+        
+        point.x = x;
+        point.y = y;
+    }
+    
+    function _drawCorridor(Point memory start, Point memory end, int16[][] memory map) internal view {
+        int16 xDistance = start.x - end.x;
+        xDistance = xDistance < 0 ? - xDistance : xDistance;
+        int16 yDistance = start.y - end.y;
+        yDistance = yDistance < 0 ? - yDistance : yDistance;
+        
+        int16 percent = (int16)(getItem(10));
+        
+        int16[2][] memory moves = new int16[2][](3);
+        
+        if (xDistance > yDistance) {
+            int16 distance = (xDistance * percent) / 100;
+            moves[0] = [start.x - end.x < 0 ? left : right, distance];
+            moves[1] = [start.y - end.y < 0 ? down : up, yDistance];
+            moves[2] = [start.x - end.x < 0 ? left : right, yDistance - distance];
+        } else {
+            int16 distance = (yDistance * percent) / 100;
+            moves[0] = [start.y - end.y < 0 ? down : up, distance];
+            moves[1] = [start.x - end.x < 0 ? left : right, xDistance];
+            moves[2] = [start.y - end.y < 0 ? down : up, xDistance - distance];
+        }
+        
+        int16 x = start.x;
+        int16 y = start.y;
+        map[x.toUint()][y.toUint()] = 0;
+        int16 length = int16(uint16(moves.length));
+        while (length > 0) {
+            int16[2] memory move = moves[length.toUint() - 1];
+            length--;
+            while (move[1] > 0) {
+                // x += move[0][0];
+                // y += move[0][1];
+                map[x.toUint()][y.toUint()] = 0;
+                move[1]--;
             }
         }
     }
