@@ -51,7 +51,7 @@ contract Rogue is MapConstructor, Rng {
         );
         map = _fillMap(1, width, height);
         
-
+        
     }
     
     function _initSetup(
@@ -156,6 +156,83 @@ contract Rogue is MapConstructor, Rng {
                     cgx = ncgx;
                     cgy = ncgy;
                     found = true;
+                }
+            }
+        }
+    }
+    
+    function _connectUnconnectedRooms(Setup memory setup, Room[][] memory rooms) public view {
+        uint16 roomCountHorizontally = setup.roomCountHorizontally.toUint();
+        uint16 roomCountVertically = setup.roomCountVertically.toUint();
+        
+        for (uint16 i = 0; i < roomCountVertically; i++) {
+            for (uint16 j = 0; j < roomCountVertically; j++) {
+                Room memory room = rooms[i][j];
+                
+                if (room.connectedPointsCount == 0) {
+                    int16[] memory direction = new int16[](4);
+                    direction[0] = 0;
+                    direction[1] = 2;
+                    direction[2] = 4;
+                    direction[3] = 6;
+                    direction = shuffle(direction);
+                    bool validRoom = false;
+                    
+                    int16 xOfRoom;
+                    int16 yOfRoom;
+                    
+                    uint16 length = uint16(direction.length);
+                    
+                    while (length > 0) {
+                        uint16 dirIdx = direction[length - 1].toUint();
+                        length--;
+                        int16 newI = int16(i) + DIRS_8[dirIdx][0];
+                        int16 newJ = int16(j) + DIRS_8[dirIdx][1];
+                        
+                        if (
+                            newI < 0 ||
+                            newI >= int16(roomCountHorizontally) ||
+                            newJ < 0 ||
+                            newJ >= int16(roomCountVertically)
+                        ) {
+                            continue;
+                        }
+                        Room memory otherRoom = rooms[newI.toUint()][newJ.toUint()];
+                        validRoom = true;
+                        xOfRoom = otherRoom.xOfRooms;
+                        yOfRoom = otherRoom.yOfRooms;
+                        
+                        if (otherRoom.connectedPointsCount == 0) {
+                            break;
+                        }
+                        
+                        Point[] memory point16 = otherRoom.connectedPoints;
+                        for (uint16 k = 0; k < otherRoom.connectedPointsCount; k++) {
+                            if (point16[k].x == int16(i) && point16[k].y == int16(j)) {
+                                validRoom = false;
+                                break;
+                            }
+                        }
+                        
+                        if (validRoom) {
+                            break;
+                        }
+                    }
+                    
+                    if (validRoom) {
+                        // room.connectedPoints[room.connectedPointsCount].x = otherRoom.xOfRooms;
+                        // room.connectedPoints[room.connectedPointsCount].y = otherRoom.yOfRooms;
+                        Point[] memory connectedPoints = room.connectedPoints;
+                        uint16 cpc = room.connectedPointsCount;
+                        
+                        // handle the unexpected empty array
+                        // if (connectedPoints.length == 0) {
+                        //     connectedPoints = new Point[](xOfRoom.toUint() + yOfRoom.toUint());
+                        // }
+                        
+                        connectedPoints[cpc] = Point(xOfRoom, yOfRoom);
+                        room.connectedPointsCount++;
+                    }
                 }
             }
         }
