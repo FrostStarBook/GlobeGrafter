@@ -1,6 +1,15 @@
 
 ## Generating zero-knowledge proofs using zkSNARK
 
+Each dependent environment version：
+```shell
+cargo 1.71.0
+node v18.12.1
+snarkjs@0.7.0
+circom compiler 2.1.6
+```
+
+
 install snarkjs
 
 ```shell
@@ -122,3 +131,5 @@ Simulate a verification call
 ```shell
 snarkjs zkey export soliditycalldata public.json proof.json
 ```
+
+![verification](https://github.com/liushuheng163/GlobeGrafter/blob/main/rogueLike-game/circom/verification.jpg?raw=true)
