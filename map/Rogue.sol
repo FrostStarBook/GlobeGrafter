@@ -50,8 +50,13 @@ contract Rogue is MapConstructor, Rng {
             roomHeightRange
         );
         map = _fillMap(1, width, height);
+        rooms = _initRooms(setup);
         
+        _connectRooms(setup, rooms);
+        _connectUnconnectedRooms(setup, rooms);
         
+        _createRooms(map, setup, rooms);
+        _createCorridors(setup, rooms, map);
     }
     
     function _initSetup(
