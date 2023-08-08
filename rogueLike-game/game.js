@@ -636,12 +636,21 @@ async function verifyAndSave(dungeons_level, level, exp, damage, attack, gold) {
         return res.json();
     });
 
+    const c_proof = await fetch("./circom/c_proof.json").then(function (res) {
+        return res.json();
+    });
+
+    const c_public = await fetch("./circom/c_public.json").then(function (res) {
+        return res.json();
+    });
+
     const res = await snarkjs.groth16.verify(vkey, publicSignals, proof);
 
     if (res === true) {
         console.log("Verification OK");
     } else {
         console.log("Invalid proof");
+        return;
     }
 
     const abi = [{
@@ -739,10 +748,10 @@ async function verifyAndSave(dungeons_level, level, exp, damage, attack, gold) {
         }).then(signature => {
             // Signature received, call the contract
             contract.methods.verifyAndSave(
-                [proof.pi_a[0], proof.pi_a[1]],
-                [[proof.pi_b[0][0], proof.pi_b[0][1]], [proof.pi_b[1][0], proof.pi_b[1][1]]],
-                [proof.pi_c[0], proof.pi_c[1]],
-                publicSignals,
+                [c_proof.pi_a[0], c_proof.pi_a[1]],
+                [[c_proof.pi_b[0][0], c_proof.pi_b[0][1]], [c_proof.pi_b[1][0], c_proof.pi_b[1][1]]],
+                [c_proof.pi_c[0], c_proof.pi_c[1]],
+                c_public,
                 dungeons_level,
                 level,
                 exp,

@@ -1,0 +1,24 @@
+{
+  "pi_a": [
+    "0x0ac932376d6c4d882a8c81dddb68ae790d270d729d0cd54da3a6fab92d6c0006",
+    "0x15fd5e5ad497493e21b0cd4d273ba2631e7b4c6dc66d5f37117c8f5190a0e0aa",
+    "1"
+  ],
+  "pi_b": [
+    ["0x2fad69e0de4e8bc56d5ae5e22c933ae1f6a0af7dd4c54f5c477ba2dc1420b8bf",
+      "0x1e5dfe8e72fab33b64ccb4ffc04023b854e51d49a16e6bb4717fe19a14bf13cd"],
+    ["0x17fa6e9f65e78bdcff3a79c48067219ec1c91a4e7846f38f83f4555468925541",
+      "0x24304423373d6b04c2e979204dbcc0d4b6900557991fbf36225b5c4e48e751d2"],
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "pi_c": [
+    "0x1c8cf5595b0a5e1ba4669569f996834dfa853d247d4e07db05af246e8a1bffc6",
+    "0x21703595afaf83822d67f96f2803f90b22f63237c187507e262d466a2831e53b",
+    "1"
+  ],
+  "protocol": "groth16",
+  "curve": "bn128"
+}
