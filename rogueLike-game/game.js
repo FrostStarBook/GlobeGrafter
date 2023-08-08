@@ -1,9 +1,6 @@
 var term = $('.term').terminal({
     rogue: function () {
         document.getElementById("connectButton").addEventListener("click", async () => {
-            // if (typeof window.ethereum !== 'undefined') {
-            //     console.log('MetaMask is installed!');
-            // }
             if (window.ethereum) {
                 web3 = new Web3(window.ethereum);
                 try {
@@ -647,118 +644,60 @@ async function verifyAndSave(dungeons_level, level, exp, damage, attack, gold) {
         console.log("Invalid proof");
     }
 
-
-    // const abi = require("./abi/GameData.json");
-    const abi = [
-        {
-            "inputs": [],
-            "stateMutability": "nonpayable",
-            "type": "constructor"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256[2]",
-                    "name": "_pA",
-                    "type": "uint256[2]"
-                },
-                {
-                    "internalType": "uint256[2][2]",
-                    "name": "_pB",
-                    "type": "uint256[2][2]"
-                },
-                {
-                    "internalType": "uint256[2]",
-                    "name": "_pC",
-                    "type": "uint256[2]"
-                },
-                {
-                    "internalType": "uint256[1]",
-                    "name": "_pubSignals",
-                    "type": "uint256[1]"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "dungeons_level",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "level",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "exp",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "damage",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "attack",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "gold",
-                    "type": "uint256"
-                }
-            ],
-            "name": "verifyAndSave",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "getData",
-            "outputs": [
-                {
-                    "components": [
-                        {
-                            "internalType": "uint256",
-                            "name": "_dungeons_level",
-                            "type": "uint256"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "_level",
-                            "type": "uint256"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "_exp",
-                            "type": "uint256"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "_damage",
-                            "type": "uint256"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "_attack",
-                            "type": "uint256"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "_gold",
-                            "type": "uint256"
-                        }
-                    ],
-                    "internalType": "struct GameData.data",
-                    "name": "",
-                    "type": "tuple"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        }
-    ];
+    const abi = [{
+        "inputs": [],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    }, {
+        "inputs": [{
+            "internalType": "uint256[2]",
+            "name": "_pA",
+            "type": "uint256[2]"
+        }, {"internalType": "uint256[2][2]", "name": "_pB", "type": "uint256[2][2]"}, {
+            "internalType": "uint256[2]",
+            "name": "_pC",
+            "type": "uint256[2]"
+        }, {"internalType": "uint256[1]", "name": "_pubSignals", "type": "uint256[1]"}, {
+            "internalType": "uint256",
+            "name": "dungeons_level",
+            "type": "uint256"
+        }, {"internalType": "uint256", "name": "level", "type": "uint256"}, {
+            "internalType": "uint256",
+            "name": "exp",
+            "type": "uint256"
+        }, {"internalType": "uint256", "name": "damage", "type": "uint256"}, {
+            "internalType": "uint256",
+            "name": "attack",
+            "type": "uint256"
+        }, {"internalType": "uint256", "name": "gold", "type": "uint256"}],
+        "name": "verifyAndSave",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }, {
+        "inputs": [],
+        "name": "getData",
+        "outputs": [{
+            "components": [{
+                "internalType": "uint256",
+                "name": "_dungeons_level",
+                "type": "uint256"
+            }, {"internalType": "uint256", "name": "_level", "type": "uint256"}, {
+                "internalType": "uint256",
+                "name": "_exp",
+                "type": "uint256"
+            }, {"internalType": "uint256", "name": "_damage", "type": "uint256"}, {
+                "internalType": "uint256",
+                "name": "_attack",
+                "type": "uint256"
+            }, {"internalType": "uint256", "name": "_gold", "type": "uint256"}],
+            "internalType": "struct GameData.data",
+            "name": "",
+            "type": "tuple"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    }];
 
     await checkNetwork();
 
@@ -778,26 +717,39 @@ async function verifyAndSave(dungeons_level, level, exp, damage, attack, gold) {
 
     const contractAddress = "0x1aE9623899dDc2bB42217eF985a3d98E6E7623C1"
 
-
     const contract = new web3.eth.Contract(abi, contractAddress)
+
+    console.log([proof.pi_a[0], proof.pi_a[1]],
+        [[proof.pi_b[0][0], proof.pi_b[0][1]], [proof.pi_b[1][0], proof.pi_b[1][1]]],
+        [proof.pi_c[0], proof.pi_c[1]], publicSignals,
+        dungeons_level,
+        level,
+        exp,
+        damage,
+        attack,
+        gold)
 
     async function callContract() {
         const from = (await provider.request({method: 'eth_accounts'}))[0];
-        const msg = web3.utils.sha3("some message to sign");
+        const msg = web3.utils.sha3("commit game data");
 
         provider.request({
             method: 'personal_sign',
             params: [msg, from]
         }).then(signature => {
             // Signature received, call the contract
-            contract.methods.verifyAndSave([proof.pi_a[0],proof.pi_a[1]],
-                [[proof.pi_b[0][0],
-                    proof.pi_b[0][1]],
-                    [proof.pi_b[1][0], proof.pi_b[1][1]]],
+            contract.methods.verifyAndSave(
+                [proof.pi_a[0], proof.pi_a[1]],
+                [[proof.pi_b[0][0], proof.pi_b[0][1]], [proof.pi_b[1][0], proof.pi_b[1][1]]],
                 [proof.pi_c[0], proof.pi_c[1]],
                 publicSignals,
-                dungeons_level, level, exp, damage, attack, gold)
-                .send({ from, gas: '500000', chain: 'Optimism Goerli' })
+                dungeons_level,
+                level,
+                exp,
+                damage,
+                attack,
+                gold)
+                .send({from, gas: '500000', chain: 'Optimism Goerli'})
                 .on('transactionHash', function (hash) {
                     console.log(".......")
                 })
@@ -811,12 +763,12 @@ async function verifyAndSave(dungeons_level, level, exp, damage, attack, gold) {
 
 
 async function checkNetwork() {
-    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    const chainId = await window.ethereum.request({method: 'eth_chainId'});
     if (chainId !== 420) {
         try {
             await window.ethereum.request({
                 method: 'wallet_switchEthereumChain',
-                params: [{ chainId: '0x1a4' }],
+                params: [{chainId: '0x1a4'}],
             });
         } catch (switchError) {
             alert('Please switch to Optimism Goerli');
