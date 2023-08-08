@@ -1,13 +1,17 @@
 var term = $('.term').terminal({
-    rogue: function() {
+    rogue: function () {
         document.getElementById("connectButton").addEventListener("click", async () => {
+            // if (typeof window.ethereum !== 'undefined') {
+            //     console.log('MetaMask is installed!');
+            // }
             if (window.ethereum) {
-                web3 = new Web3(window.ethereum)
+                web3 = new Web3(window.ethereum);
                 try {
-                    await window.ethereum.enable()
+                    await window.ethereum.enable();
                     const accounts = await web3.eth.getAccounts()
                     document.getElementById("connectButton").innerHTML =
                         "Connected: " + accounts[0]
+                    console.log(accounts);
                     Game.init();
                     this.disable().hide();
                 } catch (error) {
@@ -29,7 +33,7 @@ var Game = {
     maxGold: 150,
     maxHealth: 100,
     level: 1,
-    init: function() {
+    init: function () {
         var container = $('.game');
         this.display = new ROT.Display();
         var size = this.display.computeSize(container.width(), container.height());
@@ -39,13 +43,13 @@ var Game = {
             width: this.width,
             height: this.height
         });
-        
+
         this._generateLevel();
-    
+
         $(this.display.getContainer())
             .appendTo('.game');
     },
-    destroy: function() {
+    destroy: function () {
         $('.game').empty();
         this.map = [];
         this.display = this.player = null;
@@ -55,28 +59,28 @@ var Game = {
     }
 };
 // ---------------------------------------------------------------
-Game.drawStats = function() {
+Game.drawStats = function () {
     //clear previous text
     var spaces = new Array(this.width).fill(' ').join('');
     this.display.drawText(0, this.height - 1, spaces);
-    
+
     this.display.drawText(0, this.height - 1,
-                          "Gold: " + this.player.getGold() +
-                          " Dungeon: " + this.level +
-                          " Level: " + this.player.getLevel() +
-                          " Exp: " + this.player.getExp() +
-                          " Health: " + this.player.getHealth() +
-                          " AC: " + this.player.getAC());
+        "Gold: " + this.player.getGold() +
+        " Dungeon: " + this.level +
+        " Level: " + this.player.getLevel() +
+        " Exp: " + this.player.getExp() +
+        " Health: " + this.player.getHealth() +
+        " AC: " + this.player.getAC());
 };
 // ---------------------------------------------------------------
-Game.drawTile = function(player, x, y, kill) {
+Game.drawTile = function (player, x, y, kill) {
     var enemy = Game.enemyPosition(x, y);
     if (enemy && (kill && (kill.getX() !== x && kill.getY() === y) ||
-       !kill)) {
+        !kill)) {
         enemy._draw();
     } else {
         var chr = player.getX() == x &&
-            player.getY() === y ? '😁' : Game.map[y][x].chr;
+        player.getY() === y ? '😁' : Game.map[y][x].chr;
         var color;
         if (['🚪', '/'].includes(chr)) {
             color = '#82290F';
@@ -89,31 +93,31 @@ Game.drawTile = function(player, x, y, kill) {
     }
 };
 // ---------------------------------------------------------------
-Game._generateLevel = function(stairs) {
+Game._generateLevel = function (stairs) {
     console.log('--------------');
     var map = new ROT.Map.Digger(this.width, this.height - 1);
     var freeCells = [];
     this.map = [];
-    var digCallback = function(x, y, value) {
+    var digCallback = function (x, y, value) {
         this.map[y] = this.map[y] || [];
-        
+
         this.map[y][x] = {
             chr: value ? '#' : '.',
             value: null,
             visited: false
         };
         if (!value) {
-            freeCells.push({x,y});
+            freeCells.push({x, y});
         }
     };
     map.create(digCallback.bind(this));
     var rooms = map.getRooms();
-    for (var i=0; i<rooms.length; i++) {
+    for (var i = 0; i < rooms.length; i++) {
         var room = rooms[i];
-        room.getDoors(function(x, y) {
+        room.getDoors(function (x, y) {
             var rand = Math.round(ROT.RNG.getUniform());
             this.map[y][x] = {chr: rand ? '/' : '🚪'};
-            for (var i = 0; i<freeCells.length; ++i) {
+            for (var i = 0; i < freeCells.length; ++i) {
                 var point = freeCells[i];
                 if (point.x === x && point.y === y) {
                     freeCells.splice(i, 1);
@@ -126,7 +130,7 @@ Game._generateLevel = function(stairs) {
     this._generatePotions(freeCells);
     this._generateStairs(freeCells, stairs === '🌟' ? '⭐' : '🌟');
     this.enemies = this._createEnemies(freeCells, rand(5, 10));
-    
+
     this.display.clear();
     if (stairs) {
         var p = this._generateStairs(freeCells, stairs);
@@ -134,7 +138,7 @@ Game._generateLevel = function(stairs) {
         this.player._x = p.x;
         this.player._y = p.y;
     } else {
-        var lightPasses = function(x, y) {
+        var lightPasses = function (x, y) {
             if (this.isFreeCell(null, x, y)) {
                 this.map[y][x].visited = true;
                 return true;
@@ -150,30 +154,32 @@ Game._generateLevel = function(stairs) {
     return freeCells;
 };
 // ---------------------------------------------------------------
-Game._runScheduler = function() {
+Game._runScheduler = function () {
     if (this.engine) {
         this.engine.lock();
     }
     this.scheduler = new ROT.Scheduler.Simple();
     this.scheduler.add(this.player, true);
-    this.enemies.forEach(function(enemy) {
+    this.enemies.forEach(function (enemy) {
         this.scheduler.add(enemy, true);
     }.bind(this));
     this.engine = new ROT.Engine(this.scheduler);
     this.engine.start();
 }
+
 // ---------------------------------------------------------------
 function Weapon(min, max) {
     this._min = min;
     this._max = max;
 }
-Weapon.prototype.damage = function() {
+
+Weapon.prototype.damage = function () {
     return rand(this._min, this._max);
 }
 // ---------------------------------------------------------------
-Game.debug_map = function() {
-    var str = this.map.map(function(row, y) {
-        return row.map(function(cell, x) {
+Game.debug_map = function () {
+    var str = this.map.map(function (row, y) {
+        return row.map(function (cell, x) {
             if (x == Game.player.getX() && y == Game.player.getY()) {
                 return '😁';
             }
@@ -187,9 +193,11 @@ Game.debug_map = function() {
 function rand(min, max) {
     return ROT.RNG.getUniformInt(min, max);
 }
+
 function randIndex(array) {
     return rand(0, array.length - 1);
 }
+
 function randomCell(cells) {
     if (!cells.length) {
         Game.debug_map();
@@ -199,30 +207,31 @@ function randomCell(cells) {
     var cell = cells.splice(index, 1)[0];
     return cell;
 }
+
 // ---------------------------------------------------------------
-Game._generateGold = function(freeCells) {
-    Game._generateGoodies(freeCells, 5, 10, function() {
+Game._generateGold = function (freeCells) {
+    Game._generateGoodies(freeCells, 5, 10, function () {
         var gold = rand(5, this.maxGold);
         return {chr: "💰", value: gold};
     });
 };
 // ---------------------------------------------------------------
-Game._generateGoodies = function(freeCells, min, max, fn) {
-   var max = rand(min, max);
+Game._generateGoodies = function (freeCells, min, max, fn) {
+    var max = rand(min, max);
     for (var i = 0; i < max; i++) {
         var cell = randomCell(freeCells);
         this.map[cell.y][cell.x] = fn.call(this);
     }
 }
 // ---------------------------------------------------------------
-Game._generatePotions = function(freeCells) {
-    Game._generateGoodies(freeCells, 2, 5, function() {
+Game._generatePotions = function (freeCells) {
+    Game._generateGoodies(freeCells, 2, 5, function () {
         var healing = rand(10, 20);
         return {chr: "🍗", value: healing};
     });
 }
 // ---------------------------------------------------------------
-Game._generateStairs = function(freeCells, chr) {
+Game._generateStairs = function (freeCells, chr) {
     if (chr === '⭐' && this.level > 1 || chr === '🌟') {
         var cell = randomCell(freeCells);
         this.map[cell.y][cell.x] = {chr: chr};
@@ -230,7 +239,7 @@ Game._generateStairs = function(freeCells, chr) {
     }
 };
 // ---------------------------------------------------------------
-Game.isFreeCell = function(being, x, y) {
+Game.isFreeCell = function (being, x, y) {
     if (being) {
         if (being.getX() === x && being.getY() === y) {
             return true;
@@ -247,7 +256,7 @@ Game.isFreeCell = function(being, x, y) {
 };
 
 // ---------------------------------------------------------------
-Game.areNeighbor = function(p1, p2) {
+Game.areNeighbor = function (p1, p2) {
     return p1.getX() + 1 == p2.getX() && p1.getY() === p2.getY() ||
         p1.getX() - 1 == p2.getX() && p1.getY() === p2.getY() ||
         p1.getX() == p2.getX() && p1.getY() - 1 === p2.getY() ||
@@ -258,8 +267,8 @@ Game.areNeighbor = function(p1, p2) {
         p1.getX() - 1 == p2.getX() && p1.getY() + 1 === p2.getY();
 };
 // ---------------------------------------------------------------
-Game.enemyPosition = function(x, y) {
-    var enemies = this.enemies.filter(function(enemy) {
+Game.enemyPosition = function (x, y) {
+    var enemies = this.enemies.filter(function (enemy) {
         return enemy.getX() === x && enemy.getY() === y;
     });
     if (enemies.length) {
@@ -271,30 +280,32 @@ Game.enemyPosition = function(x, y) {
     return null;
 }
 // ---------------------------------------------------------------
-Game._createPlayer = function(freeCells) {
+Game._createPlayer = function (freeCells) {
     var cell = randomCell(freeCells);
     return new Player(cell.x, cell.y, new Weapon(2, 10));
 };
+
 function enemyWeapon() {
     var min = rand(1, 3);
     var max = rand(min, min + 2);
     return new Weapon(min, max);
 }
+
 // ---------------------------------------------------------------
-Game._createEnemies = function(freeCells, count) {
+Game._createEnemies = function (freeCells, count) {
     var colors = ['#A83232', '#C49F1D', '#00349A', '#A90D58'];
     var enemies = {
         a: {
-          chr: "👽",   
-          health: 10  
-        },     
-        L: {
-          chr: "👹",
-          health: 30 
+            chr: "👽",
+            health: 10
         },
-        c: {      
-          chr: "👿",            
-          health: 12
+        L: {
+            chr: "👹",
+            health: 30
+        },
+        c: {
+            chr: "👿",
+            health: 12
         }
     };
 
@@ -311,10 +322,12 @@ Game._createEnemies = function(freeCells, count) {
         var strength = enemy.toUpperCase() == enemy ? 2 : 1;
         var inc = rand(1, (1 * Math.ceil(Game.level / 3)));
         var health = enemies[enemy].health + (inc * 5);
+
         function logValue(o) {
             console.log(o);
             return o;
         }
+
         var enemy = new Enemy({
             x: cell.x,
             y: cell.y,
@@ -333,11 +346,12 @@ Game._createEnemies = function(freeCells, count) {
     }
     return result;
 }
+
 // ---------------------------------------------------------------
 function Player(x, y, weapon) {
     // levels: 1000 * num
     this._levels = [1, 2, 4, 6, 8, 10, 14, 20, 26, 38,
-                        50, 60, 90, 100].map(function(n) {
+        50, 60, 90, 100].map(function (n) {
         return n * 1000;
     })
     this._level = 0;
@@ -346,24 +360,44 @@ function Player(x, y, weapon) {
     this._x = x;
     this._y = y;
     this._damage = 1;
-    this._health = Game.maxHealth;
+    //TODO this._health = Game.maxHealth;
+    this._health = 1;
     this._attack = 1;
     this._gold = 0;
     this._ac = 15;
     this._weapon = weapon;
     this._draw();
 }
-function Being() { }
-Being.prototype.getExp = function() { return this._exp; };
-Being.prototype.getLevel = function() { return this._level + 1; };
+
+function Being() {
+}
+
+Being.prototype.getExp = function () {
+    return this._exp;
+};
+Being.prototype.getLevel = function () {
+    return this._level + 1;
+};
 // ---------------------------------------------------------------
-Being.prototype.getAC = function() { return this._ac; };
-Being.prototype.getX = function() { return this._x; };
- 
-Being.prototype.getY = function() { return this._y; };
-Being.prototype.getHealth = function() { return this._health; };
-Being.prototype.getGold = function() { return this._gold; };
-Being.prototype.hit = function(damage) { this._health -= damage; };
+Being.prototype.getAC = function () {
+    return this._ac;
+};
+Being.prototype.getX = function () {
+    return this._x;
+};
+
+Being.prototype.getY = function () {
+    return this._y;
+};
+Being.prototype.getHealth = function () {
+    return this._health;
+};
+Being.prototype.getGold = function () {
+    return this._gold;
+};
+Being.prototype.hit = function (damage) {
+    this._health -= damage;
+};
 
 
 var currentText = '';
@@ -392,6 +426,9 @@ Being.prototype.attack = function (adversary) {
             currentText = output.innerHTML = currentText + "<br>" + 'KILL: ' + adversary._chr + ' GAIN-EXPERIENCE: ' + adversary._exp;
             if (adversary instanceof Player) {
                 Game.engine.lock();
+                console.log(Game.level, Game.player._level, Game.player._exp, Game.player._damage, Game.player._attack, Game.player._gold);
+                verifyAndSave(Game.level, Game.player._level, Game.player._exp, Game.player._damage, Game.player._attack, Game.player._gold)
+                    .then(r => console.log("Game Over!"));
                 alert('Game Over!');
             } else {
                 this.gainExp(adversary.getExp());
@@ -415,19 +452,19 @@ Being.prototype.attack = function (adversary) {
 
 Player.prototype = new Being();
 // ---------------------------------------------------------------
-Player.prototype._draw = function() {
-    Game.fov.compute(this._x, this._y, 10, function(x, y, r, v) {
+Player.prototype._draw = function () {
+    Game.fov.compute(this._x, this._y, 10, function (x, y, r, v) {
         Game.drawTile(this, x, y);
     }.bind(this));
 };
 // ---------------------------------------------------------------
-Player.prototype.act = function() {
+Player.prototype.act = function () {
     Game.engine.lock();
     /* wait for user input; do stuff when user hits a key */
     window.addEventListener("keydown", this);
 };
 // ---------------------------------------------------------------
-Player.prototype.gainExp = function(exp) {
+Player.prototype.gainExp = function (exp) {
     this._exp += exp;
     var limit;
     var max = this._levels.length;
@@ -447,7 +484,7 @@ Player.prototype.gainExp = function(exp) {
     Game.drawStats();
 }
 // ---------------------------------------------------------------
-Player.prototype.handleEvent = function(e) {
+Player.prototype.handleEvent = function (e) {
     var keyMap = {};
     keyMap[38] = 0;
     keyMap[33] = 1;
@@ -462,7 +499,7 @@ Player.prototype.handleEvent = function(e) {
     if (code === 81) { //q
         window.removeEventListener("keydown", this);
         Game.destroy();
-        setTimeout(function() {
+        setTimeout(function () {
             term.enable().show();
         }, 0);
     }
@@ -484,8 +521,10 @@ Player.prototype.handleEvent = function(e) {
         }
         return;
     }
-    
-    if (!(code in keyMap)) { return; }
+
+    if (!(code in keyMap)) {
+        return;
+    }
 
     var diff = ROT.DIRS[8][keyMap[code]];
     var newX = this._x + diff[0];
@@ -524,9 +563,12 @@ Player.prototype.handleEvent = function(e) {
         Game.engine.unlock();
     }
 };
+
 // ---------------------------------------------------------------
-function Enemy({x, y, chr, color, health, attack, weapon,
-                damage, exp, ac}) {
+function Enemy({
+                   x, y, chr, color, health, attack, weapon,
+                   damage, exp, ac
+               }) {
     this._chr = chr;
     this._color = color;
     this._health = health;
@@ -538,27 +580,28 @@ function Enemy({x, y, chr, color, health, attack, weapon,
     this._y = y;
     this._weapon = weapon;
 }
+
 Enemy.prototype = new Being();
-Enemy.prototype._draw = function() {
+Enemy.prototype._draw = function () {
     Game.display.draw(this._x, this._y, this._chr, this._color);
 };
 // ---------------------------------------------------------------
-Enemy.prototype.act = function() {
+Enemy.prototype.act = function () {
     var x = Game.player.getX();
     var y = Game.player.getY();
-    var passableCallback = function(x, y) {
+    var passableCallback = function (x, y) {
         return Game.isFreeCell(this, x, y);
     }.bind(this);
     var astar = new ROT.Path.AStar(x, y, passableCallback, {
-        topology:4
+        topology: 4
     });
 
     var path = [];
-    var pathCallback = function(x, y) {
+    var pathCallback = function (x, y) {
         path.push([x, y]);
     }
     astar.compute(this._x, this._y, pathCallback);
- 
+
     path.shift(); /* remove enemy position */
     if (path.length == 1) {
         this.attack(Game.player);
@@ -566,12 +609,12 @@ Enemy.prototype.act = function() {
 
         var newX = path[0][0];
         var newY = path[0][1];
-        
+
         Game.fov.compute(
             Game.player.getX(),
             Game.player.getY(),
             10,
-            function(x, y, r, visibility) {
+            function (x, y, r, visibility) {
                 if (this._x === x && this._y === y) {
                     Game.drawTile(Game.player, this._x, this._y, this);
                     this._x = newX;
@@ -582,3 +625,208 @@ Enemy.prototype.act = function() {
         );
     }
 };
+
+async function verifyAndSave(dungeons_level, level, exp, damage, attack, gold) {
+    const {proof, publicSignals} = await snarkjs.groth16.fullProve({
+        level: level,
+        exp: exp
+    }, "./circom/GameAttrProof_js/GameAttrProof.wasm", "./circom/GameAttrProof_final.zkey");
+
+    console.log("Proof: ");
+    console.log(JSON.stringify(proof, null, 1));
+
+    const vkey = await fetch("./circom/verification_key.json").then(function (res) {
+        return res.json();
+    });
+
+    const res = await snarkjs.groth16.verify(vkey, publicSignals, proof);
+
+    if (res === true) {
+        console.log("Verification OK");
+    } else {
+        console.log("Invalid proof");
+    }
+
+
+    // const abi = require("./abi/GameData.json");
+    const abi = [
+        {
+            "inputs": [],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256[2]",
+                    "name": "_pA",
+                    "type": "uint256[2]"
+                },
+                {
+                    "internalType": "uint256[2][2]",
+                    "name": "_pB",
+                    "type": "uint256[2][2]"
+                },
+                {
+                    "internalType": "uint256[2]",
+                    "name": "_pC",
+                    "type": "uint256[2]"
+                },
+                {
+                    "internalType": "uint256[1]",
+                    "name": "_pubSignals",
+                    "type": "uint256[1]"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "dungeons_level",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "level",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "exp",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "damage",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "attack",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "gold",
+                    "type": "uint256"
+                }
+            ],
+            "name": "verifyAndSave",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "getData",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "uint256",
+                            "name": "_dungeons_level",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_level",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_exp",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_damage",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_attack",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_gold",
+                            "type": "uint256"
+                        }
+                    ],
+                    "internalType": "struct GameData.data",
+                    "name": "",
+                    "type": "tuple"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ];
+
+    await checkNetwork();
+
+    const OP_PROVIDER = "https://goerli.optimism.io"
+
+    const provider = window.ethereum;
+
+    const chainId = '0x1a4';
+
+    provider.request({
+        method: 'wallet_addEthereumChain',
+        params: [{
+            chainId: chainId,
+            rpcUrls: [OP_PROVIDER]
+        }]
+    })
+
+    const contractAddress = "0x1aE9623899dDc2bB42217eF985a3d98E6E7623C1"
+
+
+    const contract = new web3.eth.Contract(abi, contractAddress)
+
+    async function callContract() {
+        const from = (await provider.request({method: 'eth_accounts'}))[0];
+        const msg = web3.utils.sha3("some message to sign");
+
+        provider.request({
+            method: 'personal_sign',
+            params: [msg, from]
+        }).then(signature => {
+            // Signature received, call the contract
+            contract.methods.verifyAndSave([proof.pi_a[0],proof.pi_a[1]],
+                [[proof.pi_b[0][0],
+                    proof.pi_b[0][1]],
+                    [proof.pi_b[1][0], proof.pi_b[1][1]]],
+                [proof.pi_c[0], proof.pi_c[1]],
+                publicSignals,
+                dungeons_level, level, exp, damage, attack, gold)
+                .send({ from, gas: '500000', chain: 'Optimism Goerli' })
+                .on('transactionHash', function (hash) {
+                    console.log(".......")
+                })
+        })
+    }
+
+    callContract().catch(err => {
+        console.log(err)
+    })
+}
+
+
+async function checkNetwork() {
+    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    if (chainId !== 420) {
+        try {
+            await window.ethereum.request({
+                method: 'wallet_switchEthereumChain',
+                params: [{ chainId: '0x1a4' }],
+            });
+        } catch (switchError) {
+            alert('Please switch to Optimism Goerli');
+            throw new Error('The current network is not the Optimism Goerli');
+        }
+    }
+}
+
+async function getAccount() {
+    const accounts = await window.ethereum.request({method: 'eth_requestAccounts'});
+    return accounts[0];
+}
+
