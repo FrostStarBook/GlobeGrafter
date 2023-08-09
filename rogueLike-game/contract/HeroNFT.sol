@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "./GameAttrProof.sol";
+import "./ERC721MetaData.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
@@ -9,18 +10,19 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 
-contract GameData is
+contract HeroNFT is
 Initializable,
 UUPSUpgradeable,
 ERC721Upgradeable,
 ERC721URIStorageUpgradeable,
-OwnableUpgradeable{
+OwnableUpgradeable {
 
     uint256 public totalSupply;
 
     mapping(address => Attributes) private players;
 
     Groth16Verifier private gameAttrProof;
+    ERC721MetaData private meta;
 
     function initialize() public initializer {
         __ERC721_init("Hero NFT", "H");
@@ -28,6 +30,7 @@ OwnableUpgradeable{
         __UUPSUpgradeable_init();
         __Ownable_init();
         gameAttrProof = Groth16Verifier(0x627a72bbE16416Ae722BA05876C5cB2dcb0Dc6BB);
+        meta = ERC721MetaData(0xa896d76635b0552Fd60074E9AB44d323cA58178A);
     }
 
     struct Attributes {
@@ -39,7 +42,7 @@ OwnableUpgradeable{
         uint _gold;
     }
 
-    function verifyAndSave(
+    function verifyAndMint(
         uint[2] memory _pA,
         uint[2][2] memory _pB,
         uint[2] memory _pC,
@@ -55,7 +58,7 @@ OwnableUpgradeable{
 
     }
 
-    function saveAttributes(uint dungeons_level, uint level, uint exp, uint damage, uint attack, uint gold) private{
+    function saveAttributes(uint dungeons_level, uint level, uint exp, uint damage, uint attack, uint gold) private {
         Attributes storage playerData = players[msg.sender];
         playerData._dungeons_level = dungeons_level;
         playerData._level = level;
@@ -81,10 +84,14 @@ OwnableUpgradeable{
 
     function mint(uint dungeons_level, uint level, uint exp, uint damage, uint attack, uint gold) private {
         uint256 tokenId = totalSupply + 1;
-        string memory images;
 
         _safeMint(msg.sender, tokenId);
-        _setTokenURI(tokenId, tokenURI(tokenId, images));
+
+        if (exp > 5000) {
+            _setTokenURI(tokenId, tokenURI(tokenId, meta.getImg(random(1, 4))));
+        } else {
+            _setTokenURI(tokenId, tokenURI(tokenId, meta.getImg(random(4, 8))));
+        }
 
         totalSupply++;
 
@@ -97,6 +104,10 @@ OwnableUpgradeable{
             attack,
             gold
         );
+    }
+
+    function random(uint min, uint max) private view returns (uint) {
+        return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, msg.sender))) % (max - min) + min;
     }
 
     function tokenURI(
@@ -156,5 +167,6 @@ OwnableUpgradeable{
         return super.tokenURI(id);
     }
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721Upgradeable, ERC721URIStorageUpgradeable) returns (bool) {}
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721Upgradeable, ERC721URIStorageUpgradeable) returns (bool) {
+    }
 }

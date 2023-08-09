@@ -351,16 +351,16 @@ function Player(x, y, weapon) {
         50, 60, 90, 100].map(function (n) {
         return n * 1000;
     })
-    this._level = 0;
+    this._level = 1;
     this._chr = '😁';
-    this._exp = 0;
+    this._exp = 1;
     this._x = x;
     this._y = y;
     this._damage = 1;
     //TODO this._health = Game.maxHealth;
     this._health = 1;
     this._attack = 1;
-    this._gold = 0;
+    this._gold = 1;
     this._ac = 15;
     this._weapon = weapon;
     this._draw();
@@ -653,60 +653,7 @@ async function verifyAndSave(dungeons_level, level, exp, damage, attack, gold) {
         return;
     }
 
-    const abi = [{
-        "inputs": [],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    }, {
-        "inputs": [{
-            "internalType": "uint256[2]",
-            "name": "_pA",
-            "type": "uint256[2]"
-        }, {"internalType": "uint256[2][2]", "name": "_pB", "type": "uint256[2][2]"}, {
-            "internalType": "uint256[2]",
-            "name": "_pC",
-            "type": "uint256[2]"
-        }, {"internalType": "uint256[1]", "name": "_pubSignals", "type": "uint256[1]"}, {
-            "internalType": "uint256",
-            "name": "dungeons_level",
-            "type": "uint256"
-        }, {"internalType": "uint256", "name": "level", "type": "uint256"}, {
-            "internalType": "uint256",
-            "name": "exp",
-            "type": "uint256"
-        }, {"internalType": "uint256", "name": "damage", "type": "uint256"}, {
-            "internalType": "uint256",
-            "name": "attack",
-            "type": "uint256"
-        }, {"internalType": "uint256", "name": "gold", "type": "uint256"}],
-        "name": "verifyAndSave",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    }, {
-        "inputs": [],
-        "name": "getData",
-        "outputs": [{
-            "components": [{
-                "internalType": "uint256",
-                "name": "_dungeons_level",
-                "type": "uint256"
-            }, {"internalType": "uint256", "name": "_level", "type": "uint256"}, {
-                "internalType": "uint256",
-                "name": "_exp",
-                "type": "uint256"
-            }, {"internalType": "uint256", "name": "_damage", "type": "uint256"}, {
-                "internalType": "uint256",
-                "name": "_attack",
-                "type": "uint256"
-            }, {"internalType": "uint256", "name": "_gold", "type": "uint256"}],
-            "internalType": "struct GameData.data",
-            "name": "",
-            "type": "tuple"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    }];
+    const abi = [{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"previousAdmin","type":"address"},{"indexed":false,"internalType":"address","name":"newAdmin","type":"address"}],"name":"AdminChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"approved","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":false,"internalType":"bool","name":"approved","type":"bool"}],"name":"ApprovalForAll","type":"event"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"approve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"_fromTokenId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_toTokenId","type":"uint256"}],"name":"BatchMetadataUpdate","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"beacon","type":"address"}],"name":"BeaconUpgraded","type":"event"},{"inputs":[],"name":"initialize","outputs":[],"stateMutability":"nonpayable","type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint8","name":"version","type":"uint8"}],"name":"Initialized","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"_tokenId","type":"uint256"}],"name":"MetadataUpdate","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"tokenId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_dungeons_level","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_level","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_exp","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_damage","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_attack","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_gold","type":"uint256"}],"name":"NFTMinted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"bool","name":"approved","type":"bool"}],"name":"setApprovalForAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"transferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"implementation","type":"address"}],"name":"Upgraded","type":"event"},{"inputs":[{"internalType":"address","name":"newImplementation","type":"address"}],"name":"upgradeTo","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newImplementation","type":"address"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"upgradeToAndCall","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256[2]","name":"_pA","type":"uint256[2]"},{"internalType":"uint256[2][2]","name":"_pB","type":"uint256[2][2]"},{"internalType":"uint256[2]","name":"_pC","type":"uint256[2]"},{"internalType":"uint256[1]","name":"_pubSignals","type":"uint256[1]"},{"internalType":"uint256","name":"dungeons_level","type":"uint256"},{"internalType":"uint256","name":"level","type":"uint256"},{"internalType":"uint256","name":"exp","type":"uint256"},{"internalType":"uint256","name":"damage","type":"uint256"},{"internalType":"uint256","name":"attack","type":"uint256"},{"internalType":"uint256","name":"gold","type":"uint256"}],"name":"verifyAndMint","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getApproved","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getAttributes","outputs":[{"components":[{"internalType":"uint256","name":"_dungeons_level","type":"uint256"},{"internalType":"uint256","name":"_level","type":"uint256"},{"internalType":"uint256","name":"_exp","type":"uint256"},{"internalType":"uint256","name":"_damage","type":"uint256"},{"internalType":"uint256","name":"_attack","type":"uint256"},{"internalType":"uint256","name":"_gold","type":"uint256"}],"internalType":"struct HeroNFT.Attributes","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"operator","type":"address"}],"name":"isApprovedForAll","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"proxiableUUID","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes4","name":"interfaceId","type":"bytes4"}],"name":"supportsInterface","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"id","type":"uint256"}],"name":"tokenURI","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
 
     await checkNetwork();
 
@@ -724,7 +671,7 @@ async function verifyAndSave(dungeons_level, level, exp, damage, attack, gold) {
         }]
     })
 
-    const contractAddress = "0x1aE9623899dDc2bB42217eF985a3d98E6E7623C1"
+    const contractAddress = "0x495a44Ec3Eb4945abb61c05e5F26A826Bc42CEDb"
 
     const contract = new web3.eth.Contract(abi, contractAddress)
 
@@ -747,7 +694,7 @@ async function verifyAndSave(dungeons_level, level, exp, damage, attack, gold) {
             params: [msg, from]
         }).then(signature => {
             // Signature received, call the contract
-            contract.methods.verifyAndSave(
+            contract.methods.verifyAndMint(
                 [c_proof.pi_a[0], c_proof.pi_a[1]],
                 [[c_proof.pi_b[0][0], c_proof.pi_b[0][1]], [c_proof.pi_b[1][0], c_proof.pi_b[1][1]]],
                 [c_proof.pi_c[0], c_proof.pi_c[1]],
@@ -758,7 +705,7 @@ async function verifyAndSave(dungeons_level, level, exp, damage, attack, gold) {
                 damage,
                 attack,
                 gold)
-                .send({from, gas: '500000', chain: 'Optimism Goerli'})
+                .send({from, gas: '7000000', chain: 'Optimism Goerli'})
                 .on('transactionHash', function (hash) {
                     console.log(".......")
                 })
