@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract ERC721Metadata {
+contract ERC721MetaData {
 
     function getImg(uint _img) public pure returns(string memory) {
         string memory result;
