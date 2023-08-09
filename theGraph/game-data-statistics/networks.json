@@ -1,0 +1,8 @@
+{
+  "optimism-goerli": {
+    "Contract": {
+      "address": "0x495a44Ec3Eb4945abb61c05e5F26A826Bc42CEDb",
+      "startBlock": 13066369
+    }
+  }
+}
