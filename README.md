@@ -1,6 +1,7 @@
 # GlobeGrafter
 The map component on the full -chain is not just a map
 
+Game trial link （ The goerli-optimism network needs to be configured in MetaMask）：http://ec2-107-23-80-88.compute-1.amazonaws.com/
 
 
 
@@ -13,8 +14,7 @@ The map component on the full -chain is not just a map
 
 
 
-
-rogueLike-game contract(goerli-optimism):
+## rogueLike-game contract(goerli-optimism):
 ```shell
 GameAttrProof:
 0x627a72bbE16416Ae722BA05876C5cB2dcb0Dc6BB
@@ -30,7 +30,7 @@ ERC721MetaData:
 ```
 
 
-rogueLike-game contract(Mode Sepolia):
+## rogueLike-game contract(Mode Sepolia):
 ```shell
 GameAttrProof:
 0xb77BFC71EA0B1dF22E7F0410eCD5Dc463E7bAf66
@@ -45,9 +45,14 @@ ERC721MetaData:
 0x038Dd0AEC11Db1fA5981B5F9B02DA3fa30Cb3880
 ```
 
-Screenshots of some games：
+## Screenshots of some games：
+### OP:
 ![game](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/71691566886_.pic.jpg?raw=true)
 
 ![NFT](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/41691566661_.pic.jpg?raw=true)
 
 ![OPENSEA](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/61691566761_.pic.jpg?raw=true)
+
+### Mode:
+![OPENSEA](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/Mode%20Sepolia.pic.jpg?raw=true)
+![OPENSEA](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/Mode%20Sepolia-1.pic.jpg?raw=true)
