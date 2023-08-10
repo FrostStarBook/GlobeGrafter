@@ -29,6 +29,22 @@ ERC721MetaData:
 0xa896d76635b0552Fd60074E9AB44d323cA58178A
 ```
 
+
+rogueLike-game contract(Mode Sepolia):
+```shell
+GameAttrProof:
+0xb77BFC71EA0B1dF22E7F0410eCD5Dc463E7bAf66
+
+ERC1967PROXY:
+0x2FAE5D689B62b47AD3f84c144AB52304bcAbb3cb
+
+HeroNFT:
+0x35a7193f86d834F5277ee673F7D29c17C99332e7
+
+ERC721MetaData:
+0x038Dd0AEC11Db1fA5981B5F9B02DA3fa30Cb3880
+```
+
 Screenshots of some games：
 ![game](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/71691566886_.pic.jpg?raw=true)
 
