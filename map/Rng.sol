@@ -10,7 +10,8 @@ contract Rng is Constant {
     ) view public returns (int16 result) {
         int16 max = lowerBound > upperBound ? lowerBound : upperBound;
         int16 min = lowerBound > upperBound ? upperBound : lowerBound;
-        result = (int16(getItem(11)) * (max - min + 1)) / 10 + min;
+        // result = (int16(getItem(11)) * (max - min + 1)) / 10 + min;
+        return int16(getItem(uint16(max)) + uint16(min));
     }
     
     function shuffle(int16[] memory array) view internal returns (int16[] memory) {
@@ -42,6 +43,7 @@ contract Rng is Constant {
     }
     
     function getItem(uint16 length) public view returns (uint16) {
+        if (length == 0) {return 0;}
         uint16 random = uint16(uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender)))) % length;
         return random;
     }

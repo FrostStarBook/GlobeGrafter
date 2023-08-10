@@ -377,7 +377,7 @@ contract Rogue is MapConstructor, Rng {
 
         int16 x = start.x;
         int16 y = start.y;
-        map[x.toUint()][y.toUint()] = 0;
+        map[x.toUint()][y.toUint()] = int16(0);
         int16 length = int16(uint16(moves.length));
         while (length > 0) {
             int16[2] memory move = moves[length.toUint() - 1];

@@ -7,12 +7,12 @@ contract Test is Rogue {
 
     function testConnectRoom() public returns (int16[][] memory) {
         
-        return create(int16(20),
-            int16(20),
-            int16(5),
-            int16(5),
-            [int16(2), int16(4)],
-            [int16(2), int16(4)]);
+        return create(int16(10),
+            int16(10),
+            int16(4),
+            int16(4),
+            [int16(1), int16(2)],
+            [int16(1), int16(2)]);
 
     }
     
