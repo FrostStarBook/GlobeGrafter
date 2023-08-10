@@ -46,3 +46,8 @@ Queries (HTTP):     https://api.studio.thegraph.com/query/50935/game-data-statis
 ````
 
 Optimism Goerli not support Decentralized Network.
+
+
+Query example：
+![Query example](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/81691650105_.pic.jpg?raw=true)
+

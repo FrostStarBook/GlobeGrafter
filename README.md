@@ -10,6 +10,10 @@ The map component on the full -chain is not just a map
 
 
 
+
+
+
+
 rogueLike-game contract(goerli-optimism):
 ```shell
 GameAttrProof:
@@ -24,3 +28,10 @@ HeroNFT:
 ERC721MetaData:
 0xa896d76635b0552Fd60074E9AB44d323cA58178A
 ```
+
+Screenshots of some games：
+![game](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/71691566886_.pic.jpg?raw=true)
+
+![NFT](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/41691566661_.pic.jpg?raw=true)
+
+![OPENSEA](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/61691566761_.pic.jpg?raw=true)
