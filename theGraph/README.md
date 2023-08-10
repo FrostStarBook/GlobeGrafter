@@ -44,3 +44,5 @@ Subgraph endpoints:
 Queries (HTTP):     https://api.studio.thegraph.com/query/50935/game-data-statistics/v0.0.1
 
 ````
+
+Optimism Goerli not support Decentralized Network.
