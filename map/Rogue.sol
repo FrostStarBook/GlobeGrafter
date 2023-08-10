@@ -158,7 +158,7 @@ contract Rogue is MapConstructor, Rng {
         }
     }
 
-    function _connectUnconnectedRooms(Setup memory setup, Room[][] memory rooms) public view {
+    function _connectUnconnectedRooms(Setup memory setup, Room[][] memory rooms) public  {
         uint16 roomCountHorizontally = setup.roomCountHorizontally.toUint();
         uint16 roomCountVertically = setup.roomCountVertically.toUint();
 
@@ -225,7 +225,7 @@ contract Rogue is MapConstructor, Rng {
         }
     }
 
-    function _createRooms(int16[][] memory map, Setup memory setup, Room[][] memory rooms) public view {
+    function _createRooms(int16[][] memory map, Setup memory setup, Room[][] memory rooms) public  {
         int16 averageRoomWidth = setup.width / setup.roomCountHorizontally;
         int16 averageRoomHeight = setup.height / setup.roomCountVertically;
 
@@ -285,7 +285,7 @@ contract Rogue is MapConstructor, Rng {
         }
     }
 
-    function _createCorridors(Setup memory setup, Room[][] memory rooms, int16[][] memory map) public view {
+    function _createCorridors(Setup memory setup, Room[][] memory rooms, int16[][] memory map) public  {
         for (int16 i = 0; i < setup.roomCountHorizontally; i++) {
             for (int16 j = 0; j < setup.roomCountVertically; j++) {
                 Room memory room = rooms[i.toUint()][j.toUint()];
@@ -319,7 +319,7 @@ contract Rogue is MapConstructor, Rng {
 
     function _getWallPosition(Room memory room, int8 wall, int16[][] memory map)
         internal
-        view
+        
         returns (Point memory point)
     {
         int16 x;
@@ -344,16 +344,16 @@ contract Rogue is MapConstructor, Rng {
         }
 
         if (wall == left || wall == right) {
-            map[door.toUint()][x.toUint()] = mapOn;
+            map[door.toUint()][y.toUint()] = mapOn;
         } else if (wall == down || wall == up) {
-            map[y.toUint()][door.toUint()] = mapOn;
+            map[x.toUint()][door.toUint()] = mapOn;
         }
 
         point.x = x;
         point.y = y;
     }
 
-    function _drawCorridor(Point memory start, Point memory end, int16[][] memory map) internal view {
+    function _drawCorridor(Point memory start, Point memory end, int16[][] memory map) internal  {
         int16 xDistance = start.x - end.x;
         xDistance = xDistance < 0 ? -xDistance : xDistance;
         int16 yDistance = start.y - end.y;
