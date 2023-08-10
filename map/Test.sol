@@ -9,8 +9,8 @@ contract Test is Rogue {
         return create(int16(168), int16(56), int16(3), int16(3), [int16(0), int16(0)], [int16(0), int16(0)]);
     }
 
-    function test() public pure returns (Setup memory){
-        return _initSetup(int16(168), int16(56), int16(3), int16(3), [int16(0), int16(0)], [int16(0), int16(0)]);
-    }
+    // function test() public pure returns (bytes memory){
+    //     return bytes32(create(int16(168), int16(56), int16(3), int16(3), [int16(0), int16(0)], [int16(0), int16(0)]));
+    // }
 
 }
