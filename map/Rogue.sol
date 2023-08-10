@@ -79,8 +79,8 @@ contract Rogue is MapConstructor, Rng {
     }
 
     function _calculateRoomSize(int16 size, int16 count) private pure returns (int16[2] memory roomSize) {
-        roomSize[0] = (size * 80) / count / 100;
-        roomSize[1] = (size * 25) / count / 100;
+        roomSize[0] = (size * 25) / count / 100;
+        roomSize[1] = (size * 80) / count / 100;
         if (roomSize[0] < 2) {
             roomSize[0] = 2;
         }
@@ -278,7 +278,7 @@ contract Rogue is MapConstructor, Rng {
 
                 for (uint16 k = assumeX.toUint(); k < (assumeX + roomWidth).toUint(); k++) {
                     for (uint16 l = assumeY.toUint(); l < (assumeY + roomHeight).toUint(); l++) {
-                        map[k][l] = 0;
+                        map[k][l] = mapOn;
                     }
                 }
             }
@@ -344,9 +344,9 @@ contract Rogue is MapConstructor, Rng {
         }
 
         if (wall == left || wall == right) {
-            map[door.toUint()][x.toUint()] = 0;
+            map[door.toUint()][x.toUint()] = mapOn;
         } else if (wall == down || wall == up) {
-            map[y.toUint()][door.toUint()] = 0;
+            map[y.toUint()][door.toUint()] = mapOn;
         }
 
         point.x = x;
@@ -377,7 +377,7 @@ contract Rogue is MapConstructor, Rng {
 
         int16 x = start.x;
         int16 y = start.y;
-        map[x.toUint()][y.toUint()] = int16(0);
+        map[x.toUint()][y.toUint()] = mapOn;
         int16 length = int16(uint16(moves.length));
         while (length > 0) {
             int16[2] memory move = moves[length.toUint() - 1];
@@ -385,7 +385,7 @@ contract Rogue is MapConstructor, Rng {
             while (move[1] > 0) {
                 x += move[0];
                 y += move[1];
-                map[x.toUint()][y.toUint()] = 0;
+                map[x.toUint()][y.toUint()] = mapOn;
                 move[1]--;
             }
         }

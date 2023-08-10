@@ -7,8 +7,8 @@ contract Constant {
         int16 y;
     }
     
-    int8 public mapOn = 0;
-    int8 public mapOff = 1;
+    int16 public mapOn = 0;
+    int16 public mapOff = 1;
     
     int8 public down = 1;
     int8 public up = 3;

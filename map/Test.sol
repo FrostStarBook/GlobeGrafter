@@ -6,14 +6,11 @@ import "./Rogue.sol";
 contract Test is Rogue {
 
     function testConnectRoom() public returns (int16[][] memory) {
-        
-        return create(int16(10),
-            int16(10),
-            int16(4),
-            int16(4),
-            [int16(1), int16(2)],
-            [int16(1), int16(2)]);
-
+        return create(int16(60), int16(60), int16(3), int16(3), [int16(0), int16(0)], [int16(0), int16(0)]);
     }
-    
+
+    function test() public pure returns (Setup memory){
+        return _initSetup(int16(168), int16(56), int16(3), int16(3), [int16(0), int16(0)], [int16(0), int16(0)]);
+    }
+
 }

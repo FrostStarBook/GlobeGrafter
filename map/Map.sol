@@ -15,7 +15,7 @@ contract MapConstructor {
         for (uint16 i = 0; i < _width; i++) {
             map_[i] = new int16[](_height);
             for (uint16 j = 0; j < _height; j++) {
-                map_[i][j] = value;
+                map_[i][j] = int16(value);
             }
         }
     }

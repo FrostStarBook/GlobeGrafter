@@ -11,7 +11,7 @@ contract Rng is Constant {
         int16 max = lowerBound > upperBound ? lowerBound : upperBound;
         int16 min = lowerBound > upperBound ? upperBound : lowerBound;
         // result = (int16(getItem(11)) * (max - min + 1)) / 10 + min;
-        return int16(getItem(uint16(max)) + uint16(min));
+        return int16(getItem(uint16(max - min + 1)) + uint16(min));
     }
     
     function shuffle(int16[] memory array) view internal returns (int16[] memory) {
