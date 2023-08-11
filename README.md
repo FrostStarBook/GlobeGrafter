@@ -45,6 +45,18 @@ ERC721MetaData:
 0x038Dd0AEC11Db1fA5981B5F9B02DA3fa30Cb3880
 ```
 
+
+## Map Contract(Optimism Goerli):
+```shell
+0x54273407780fB2382AEBCd7da7362Be8a75F86dC
+```
+
+## Map Contract(Mode Sepolia):
+```shell
+0xc4970699CD059ede4Ad1474b8daf5D37943ad8b8
+```
+
+
 ## Screenshots of some games：
 ### OP:
 ![game](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/71691566886_.pic.jpg?raw=true)
