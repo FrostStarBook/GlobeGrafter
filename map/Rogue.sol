@@ -36,10 +36,9 @@ contract Rogue is MapConstructor, Rng {
         int16 roomCountVertically,
         int16[2] memory roomWidthRange,
         int16[2] memory roomHeightRange
-    ) public returns (int16[][] memory map) {
+    ) public returns (int16[][] memory map, Room[][] memory rooms) {
         Setup memory setup;
-        Room[][] memory rooms;
-
+        
         setup = _initSetup(width, height, roomCountHorizontally, roomCountVertically, roomWidthRange, roomHeightRange);
         map = _fillMap(1, width, height);
         rooms = _initRooms(setup);
