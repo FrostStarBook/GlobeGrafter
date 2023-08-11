@@ -9,6 +9,6 @@ library ERC6551BytecodeLib {
         uint256 tokenId_,
         uint256 salt_
     ) internal pure returns (bytes memory) {
-        return abi.encodePacked(hex"", implementation_, hex"c", abi.encode(salt_, chainId_, tokenContract_, tokenId_));
+        return abi.encodePacked(hex"", implementation_, hex"", abi.encode(salt_, chainId_, tokenContract_, tokenId_));
     }
 }

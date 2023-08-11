@@ -5,18 +5,19 @@ import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/interfaces/IERC1271.sol";
 import "@openzeppelin/contracts/utils/cryptography/SignatureChecker.sol";
+import "./IERC6551Account.sol";
+import "./IERC6551Executable.sol";
 
 contract ExampleERC6551Account is IERC165, IERC1271, IERC6551Account, IERC6551Executable {
     uint256 public state;
 
     receive() external payable {}
 
-    function execute(
-        address to,
-        uint256 value,
-        bytes calldata data,
-        uint256 operation
-    ) external payable returns (bytes memory result) {
+    function execute(address to, uint256 value, bytes calldata data, uint256 operation)
+        external
+        payable
+        returns (bytes memory result)
+    {
         require(_isValidSigner(msg.sender), "Invalid signer");
         require(operation == 0, "Only call operations are supported");
 
@@ -40,11 +41,7 @@ contract ExampleERC6551Account is IERC165, IERC1271, IERC6551Account, IERC6551Ex
         return bytes4(0);
     }
 
-    function isValidSignature(bytes32 hash, bytes memory signature)
-        external
-        view
-        returns (bytes4 magicValue)
-    {
+    function isValidSignature(bytes32 hash, bytes memory signature) external view returns (bytes4 magicValue) {
         bool isValid = SignatureChecker.isValidSignatureNow(owner(), hash, signature);
 
         if (isValid) {
@@ -55,20 +52,13 @@ contract ExampleERC6551Account is IERC165, IERC1271, IERC6551Account, IERC6551Ex
     }
 
     function supportsInterface(bytes4 interfaceId) external pure returns (bool) {
-        return (interfaceId == type(IERC165).interfaceId ||
-            interfaceId == type(IERC6551Account).interfaceId ||
-            interfaceId == type(IERC6551Executable).interfaceId);
+        return (
+            interfaceId == type(IERC165).interfaceId || interfaceId == type(IERC6551Account).interfaceId
+                || interfaceId == type(IERC6551Executable).interfaceId
+        );
     }
 
-    function token()
-        public
-        view
-        returns (
-            uint256,
-            address,
-            uint256
-        )
-    {
+    function token() public view returns (uint256, address, uint256) {
         bytes memory footer = new bytes(0x60);
 
         assembly {
