@@ -130,3 +130,8 @@ ROGUE:
 ### Mode:
 ![OPENSEA](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/Mode%20Sepolia.pic.jpg?raw=true)
 ![OPENSEA](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/Mode%20Sepolia-1.pic.jpg?raw=true)
+
+### Base
+![base](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/IMG1742.jpg?raw=true)
+### Zora
+![zora](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/IMG1746.jpg?raw=true)
