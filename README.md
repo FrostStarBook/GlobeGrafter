@@ -60,6 +60,22 @@ ERC721MetaData:
 0xC410793eD374e33615ed5Ae783D0a795A0DfED9b
 ```
 
+## rogueLike-game contract(Base Goerli):
+```shell
+GameAttrProof:
+0x8064d4BE039DE721001e7a498dC5C344789F6F87
+
+ERC1967PROXY:
+0x2dCD504C2c9ee31C079c4a2770c8bc6F71514445
+
+HeroNFT:
+0x76257c16688e341dFDF8197A9F34546e200d1717
+
+ERC721MetaData:
+0x54273407780fB2382AEBCd7da7362Be8a75F86dC
+```
+
+
 ## Map Contract(Optimism Goerli):
 ```shell
 
@@ -94,6 +110,10 @@ ROGUE:
 ## Map Contract(Base Goerli):
 ```shell
 0xcd6781E19334298909C5830B1148Ad867BBCb601
+```
+## Map Contract(Zora Goerli):
+```shell
+0xd56527fa25f8708a416f44DadEa8D96F945b6bd3
 ```
 
 ### map generate
