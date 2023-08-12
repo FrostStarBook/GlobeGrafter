@@ -76,7 +76,8 @@ ROGUE:
 ```shell
 0xc4970699CD059ede4Ad1474b8daf5D37943ad8b8
 ```
-
+### map generate
+![generate](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/IMG46.jpg?raw=true)
 
 ## Screenshots of some games：
 ### OP:
