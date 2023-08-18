@@ -59,9 +59,9 @@ var Game = {
 Game.drawStats = function () {
     //clear previous text
     var spaces = new Array(this.width).fill(' ').join('');
-    this.display.drawText(0, this.height - 57, spaces);
+    this.display.drawText(0,0, spaces);
 
-    this.display.drawText(0, this.height - 57,
+    this.display.drawText(0,0,
         "Gold: " + this.player.getGold() +
         " Dungeon: " + this.level +
         " Level: " + this.player.getLevel() +
