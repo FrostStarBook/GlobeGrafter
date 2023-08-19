@@ -23,6 +23,36 @@ Permission-free extensibility makes it possible to create a variety of game type
 
 # roguelike game contract
 
+## NEO EVM testnet
+```shell
+GameAttrProof:
+0x2dCD504C2c9ee31C079c4a2770c8bc6F71514445
+
+ERC1967PROXY:
+0x4905930dD16e6628BF34Fab96D15B25913fF60D0
+
+HeroNFT:
+0xA4D44dd5a4e6EC424704B894a65dD27b8261cd3B
+
+ERC721MetaData:
+0x8064d4BE039DE721001e7a498dC5C344789F6F87
+```
+
+## BNB testnet
+```shell
+GameAttrProof:
+0x71Ac3c8bee6BA07c7A63d3df98C41c76260E92cE
+
+ERC1967PROXY:
+0x57A41532D5861504E8b1f7a25f1d98D5502EeA61
+
+HeroNFT:
+0xA4D44dd5a4e6EC424704B894a65dD27b8261cd3B
+
+ERC721MetaData:
+0x2dCD504C2c9ee31C079c4a2770c8bc6F71514445
+```
+
 ## goerli-optimism
 ```shell
 GameAttrProof:
@@ -111,6 +141,16 @@ ROGUE:
 0x79C21942b87f3417A3ca5D1C8797d8E911f19c55
 
 ```
+## BNB testnet
+```shell
+0x76257c16688e341dFDF8197A9F34546e200d1717
+```
+
+## NEO EVM testnet
+```shell
+0xd56527fa25f8708a416f44DadEa8D96F945b6bd3
+```
+
 ## Mode Sepolia
 ```shell
 0xc4970699CD059ede4Ad1474b8daf5D37943ad8b8
@@ -127,6 +167,13 @@ ROGUE:
 ![generate](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/IMG46.jpg?raw=true)
 
 ## Screenshots of some games：
+
+### BNB:
+![BNB](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/BNB.png?raw=true))
+
+### NEO:
+![NEO](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/NEO.png?raw=true)
+
 ### Optimism:
 ![game](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/71691566886_.pic.jpg?raw=true)
 
