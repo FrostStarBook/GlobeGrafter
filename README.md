@@ -1,7 +1,7 @@
 # GlobeGrafter
 The map component on the full -chain is not just a map
 
-Game trial link （ The goerli-optimism network needs to be configured in MetaMask）：http://ec2-107-23-80-88.compute-1.amazonaws.com/
+Game trial link （ The goerli-optimism network needs to be configured in MetaMask）：https://rogue.cenozoic.xyz/
 
 
 # Project Description
