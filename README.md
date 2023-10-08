@@ -167,6 +167,7 @@ ROGUE:
 ![generate](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/IMG46.jpg?raw=true)
 
 ## Screenshots of some games：
+![game](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/71691566886_.pic.jpg?raw=true)
 
 ### BNB:
 ![BNB](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/BNB.png?raw=true))
@@ -175,7 +176,6 @@ ROGUE:
 ![NEO](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/NEO.png?raw=true)
 
 ### Optimism:
-![game](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/71691566886_.pic.jpg?raw=true)
 
 ![NFT](https://github.com/liushuheng163/GlobeGrafter/blob/main/img/41691566661_.pic.jpg?raw=true)
 
